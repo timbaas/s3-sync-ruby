@@ -7,6 +7,7 @@ module S3Sync
     #   @option options [String] :key_secret The "Access Key Secret" for your s3 user
     #   @option options [String] :region The s3 region
     #   @option options [String] :bucket The s3 bucket (top-level directory) name
+    #   @option options [Boolean] :use_encryption A boolean specifying if encription should be used
     #   @option options [String] :secret_phrase The encryption phrase to use when uploading (encrypting) and downloading (decrypting) files
     #   @option options [Array] :downloads_dir A staging directory to house files downloaded from s3
     #   @option options [Array] :files A list of local file paths
@@ -16,6 +17,7 @@ module S3Sync
     def initialize(options = {})
       @key_id = options[:key_id]
       @key_secret = options[:key_secret]
+      @use_encryption = options[:use_encryption] || false
       @secret_phrase = options[:secret_phrase]
       @bucket = options[:bucket]
       @region = options[:region]

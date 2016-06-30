@@ -9,6 +9,7 @@ module S3Sync
       @bucket = options.bucket
       @secret_phrase = options.secret_phrase
       @files = options.files
+      @use_encryption = options.use_encryption
       raise "check your configuration" unless [@key_id, @key_secret, @region, @bucket, @secret_phrase].map{|s| s.class}.uniq == [String] && @files.is_a?(Array)
 
       creds = Aws::Credentials.new(@key_id, @key_secret)
@@ -25,9 +26,13 @@ module S3Sync
 
       @files.each do |file|
         raise "couldn't find file #{file}" unless File.exist?(file)
-        encrypted_file_contents = Encryptor.encrypt(File.read(file), :key => @secret_phrase)
+        if @use_encryption
+          file_contents = Encryptor.encrypt(File.read(file), :key => @secret_phrase)
+        else
+          file_contents = File.read(file)
+        end
         s3_file = File.join(Date.today.to_s, file)
-        client.put_object(:bucket => @bucket, :key => s3_file, :body => encrypted_file_contents)
+        client.put_object(:bucket => @bucket, :key => s3_file, :body => file_contents)
         puts "uploaded encrypted contents of #{file} to #{@bucket}/#{s3_file}"
       end
     end
