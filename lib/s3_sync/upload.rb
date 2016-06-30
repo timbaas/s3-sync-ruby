@@ -1,6 +1,6 @@
 module S3Sync
   class Upload
-    attr_accessor :key_id, :key_secret, :region, :bucket, :secret_phrase, :files
+    attr_accessor :key_id, :key_secret, :region, :bucket, :use_encryption, :secret_phrase, :files
 
     def initialize(options = S3Sync.configuration)
       @key_id = options.key_id

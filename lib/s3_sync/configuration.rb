@@ -1,6 +1,6 @@
 module S3Sync
   class Configuration
-    attr_accessor :key_id, :key_secret, :region, :bucket, :secret_phrase, :downloads_dir, :files
+    attr_accessor :key_id, :key_secret, :region, :bucket, :use_encryption, :secret_phrase, :downloads_dir, :files
 
     # @param [Hash] options
     #   @option options [String] :key_id The "Access Key Id" for your s3 user
